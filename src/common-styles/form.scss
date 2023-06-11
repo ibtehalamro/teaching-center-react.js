@@ -1,0 +1,92 @@
+.form_container {
+  &_title {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    border-bottom: 1px double #80808061;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  gap: 0.5rem;
+
+  .form__group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    label {
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      padding: 10px;
+      border: 1px solid #a5a4a4;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      transition: border-color 0.3s ease-in-out;
+      box-shadow: 1px 1px 2px 0px #6866664d;
+      &:focus {
+        outline: none;
+        border-color: #0077cc;
+      }
+    }
+
+    .form-error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  }
+
+  .form-group-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    & > * {
+      flex: 1;
+    }
+  }
+
+  input[type="submit"] {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 0.5rem 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    background: rgb(13, 154, 93);
+    color: white;
+    transition: all 0.5s ease;
+    &.submitting {
+      background: rgb(3, 27, 17);
+    }
+    &:hover,
+    &:focus {
+      background: rgb(10, 116, 70);
+    }
+  }
+
+  .radio-group-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin: 0.5rem 0;
+    padding: 0.2rem 0;
+    transition:  border 0.3s ease-in-out;
+    > input[type="radio"] {
+      width: 1.2rem;
+    }
+    
+    &:hover {
+     border-bottom: 1px solid rgb(204, 204, 204);
+    }
+  }
+}

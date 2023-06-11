@@ -1,0 +1,34 @@
+.modalOverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 200;
+  background-color: rgba(73, 72, 72, 0.689);
+}
+.modalOverlay > .modal {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  padding: 1rem;
+}
+.modalOverlay > .modal > button {
+  padding: 0.3rem 1rem;
+  font-weight: bold;
+  position: absolute;
+  top: 1rem;
+  z-index: 50;
+  transition: all 0.1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  border: none;
+  cursor: pointer;
+}
+.modalOverlay > .modal > button:hover {
+  font-size: 1rem;
+}/*# sourceMappingURL=modal.css.map */

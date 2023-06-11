@@ -1,0 +1,1 @@
+export const ENGLISH_ARABIC_ONLY_LETTERS_REGEX = /^[\u0600-\u06FFa-zA-Z]+$/;

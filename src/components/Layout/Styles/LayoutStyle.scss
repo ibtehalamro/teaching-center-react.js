@@ -1,0 +1,32 @@
+.dashboard {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 15% minmax(80vh, 1fr);
+  grid-template-rows: 5% 1fr 5%;
+  grid-template-areas:
+    "sideNav header"
+    "sideNav main"
+    "sideNav footer";
+}
+
+.header-container {
+  grid-area: header;
+}
+
+.sideNavbar-container {
+  grid-area: sideNav;
+  background-color: $indigo-dye;
+}
+
+.mainBody {
+  grid-area: main;
+  background-color:$eggshell;
+
+}
+
+.footer-container {
+  grid-area: footer;
+}
+@import "./sideNav.scss";
+@import "./modal.scss";
+@import "./Tooltip.scss";

@@ -1,0 +1,98 @@
+.buttons-container {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+////////////////////////////////////////
+// CROSS FADE
+////////////////////////////////////////
+
+$cross-fade-border-width: 1px;
+$cross-fade-border-color: none;
+$sec-cross-fade-border-color: black;
+$cross-fade-button-padding: $padding-small $padding-small + 0.4rem;
+$cross-fade-text-color: black;
+$sec-cross-fade-text-color: white;
+$cross-fade-border-radius: 5px;
+$cross-fade-transition-time: 0.55s;
+
+.cross-fade-button {
+  padding: $cross-fade-button-padding;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  color: $cross-fade-text-color;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 3px;
+  transition: color $cross-fade-transition-time ease-in-out;
+  z-index: 1;
+  border-radius: $cross-fade-border-radius;
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -25%;
+    width: 150%;
+    height: 100%;
+    background: darken($light-blue, 10);
+    transition: transform $cross-fade-transition-time ease-in-out;
+    z-index: -1;
+  }
+
+  &:before {
+    transform: translate3d(100%, 0, 0) skew(20deg);
+    transform-origin: 0 0;
+  }
+
+  &:after {
+    transform: translate3d(-100%, 0, 0) skew(20deg);
+    transform-origin: 100% 100%;
+  }
+  &.active {
+    border-bottom: 3px solid $spanish-gray;
+    &:before,
+    &:after {
+      transform: translate3d(0, 0, 0) skew(20deg);
+    }
+  }
+  &:hover {
+    @extend .cross-fade-button.active;
+  }
+}
+
+////////////////////////////////////////
+// END CROSS FADE
+////////////////////////////////////////
+
+
+.actionButton{
+  padding: .4rem 1rem;
+  background-color: $indigo-dye;
+  color: $eggshell;
+  font-weight: bold;
+  letter-spacing: 1px;
+   height: 1.6rem;
+  cursor: pointer;
+  &:hover{
+    box-shadow: 2px 0px 8px rgb(70, 69, 69) ;
+  }
+}
+
+.actionButton2{
+  padding: .4rem 1rem;
+  background-color:darken($color:$eggshell, $amount: 5) ;
+  color: $indigo-dye;
+  font-weight: bold;
+  letter-spacing: 1px;
+   height: 1.6rem;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover{
+    box-shadow: 2px 0px 8px rgb(69, 69, 70) ;
+  }
+}
