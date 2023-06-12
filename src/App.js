@@ -7,12 +7,13 @@ import AdminDashboardRouter from "./components/Dashboard/AdminDashboard/AdminDas
 function App() {
   return (
     <div className="mainContainer">
-    <div>
-      <Link to={MAIN_APP_URLS.ADMIN_DASHBOARD}>Admin Dashboard</Link></div>
-    <Routes>
-      <Route path={MAIN_APP_URLS.ADMIN_DASHBOARD + "/*"} element={<AdminDashboardRouter />} />
-    </Routes>
-  </div>
+      {/* <div>
+        <Link to={MAIN_APP_URLS.ADMIN_DASHBOARD}>Admin Dashboard</Link>
+      </div> */}
+      <Routes>
+        <Route path={MAIN_APP_URLS.ADMIN_DASHBOARD + "/*"} element={<AdminDashboardRouter />} />
+      </Routes>
+    </div>
   );
 }
 

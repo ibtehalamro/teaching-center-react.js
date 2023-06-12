@@ -6,7 +6,7 @@ import Footer from "../../Layout/Components/Footer";
 export default function AdminDashboardLayout(props) {
     return (
         <main className="admin-dashboard dashboard" >
-            <Header />
+            {/* <Header /> */}
             <SideNavbar />
             {props.children}
             <Footer />
