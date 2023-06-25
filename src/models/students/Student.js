@@ -53,8 +53,19 @@ class Student {
         };
     }
 
+
+   static getStudentValidation(){
+        return Yup.object().shape({
+            gender: Yup.string()
+             .required('Gender is required')
+        });
+    }
+
     static getValidationSchema() {
-        return FullNameManager.getValidationSchema().concat(AddressManager.getValidationSchema()).concat(MobileNumberManager.getValidationSchema());
+        return FullNameManager.getValidationSchema()
+        .concat(AddressManager.getValidationSchema())
+        .concat(MobileNumberManager.getValidationSchema())
+        .concat(Student.getStudentValidation());
     }
 
     static getAssignMultipleStudentsToSectionValidation(){
@@ -66,8 +77,6 @@ class Student {
 
     static getAssignStudentToMultipleSectionsValidation(){
         return Yup.object().shape({
-
-          
         }); 
     }
 }

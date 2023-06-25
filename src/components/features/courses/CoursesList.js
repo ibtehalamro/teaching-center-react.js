@@ -5,10 +5,11 @@ import { API_COURSE_URLS } from '../../../router/courses/CourseUrls';
 import { getCoursesListPromise } from '../../../promises/course/CoursePromises';
 import { MAIN_APP_URLS } from '../../../Constants/URLConstants/MainAppUrls';
 import Loader from '../../Layout/Components/Loader';
+import sectionsImage from '../../../assets/sections.png'
+import TableWithPagination from '../../commonComponents/TableWithPagination';
 
 
 const CoursesList = () => {
-
   const getCoursesQuery = useQuery(API_COURSE_URLS.API_GET_COURSES_LIST.key, getCoursesListPromise);
   const pathname = useResolvedPath(`${MAIN_APP_URLS.ADMIN_DASHBOARD}/course`, true).pathname;
 
@@ -17,20 +18,30 @@ const CoursesList = () => {
     return <Loader />
   }
 
+
+  const headers = ["Course Name", "Type", "# of Sections", "Sections"];
+
+  const rowMethod = (course) => {
+    return (
+      <tr key={course.id}>
+
+        <td>{course.name}</td>
+        <td>{course.type}</td>
+        <td>{course.sections}</td>
+        <td>
+          <Link className="card-icon" to={`${pathname}/${course.id}/sections`}>
+            <img src={sectionsImage} alt="Sections" />
+          </Link>
+        </td>
+
+      </tr>
+
+    );
+  };
+
   return (
     <div className="courses">
-      <h2 className="page-title">Courses</h2>
-      <ul className="courses-list">
-        {courses.data?.map((course) => (
-          <Link to={`${pathname}/${course.id}/sections`}> <li key={course.id} className="courses-list__card">
-            <div className="details">
-              <span className="title">{course.name}</span>
-              <span className="type">{course.type}</span>
-            </div>
-            <span>Sections: {course.sections}</span>
-          </li></Link>
-        ))}
-      </ul>
+      <TableWithPagination id={"coursesTable"} data={courses.data} itemsPerPage={5} rowMethod={rowMethod} headers={headers} />
     </div>
   );
 };

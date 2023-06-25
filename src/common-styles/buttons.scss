@@ -69,30 +69,29 @@ $cross-fade-transition-time: 0.55s;
 // END CROSS FADE
 ////////////////////////////////////////
 
-
-.actionButton{
-  padding: .4rem 1rem;
+.actionButton {
+  padding: 0.4rem 1rem;
   background-color: $indigo-dye;
   color: $eggshell;
   font-weight: bold;
   letter-spacing: 1px;
-   height: 1.6rem;
+  height: 1.6rem;
   cursor: pointer;
-  &:hover{
-    box-shadow: 2px 0px 8px rgb(70, 69, 69) ;
+  &:hover {
+    box-shadow: 2px 0px 8px rgb(70, 69, 69);
   }
 }
 
-.actionButton2{
-  padding: .4rem 1rem;
-  background-color:darken($color:$eggshell, $amount: 5) ;
+.actionButton2 {
+  padding: 0.4rem 1rem;
+  background-color: darken($color: $light-blue, $amount: 0);
   color: $indigo-dye;
   font-weight: bold;
   letter-spacing: 1px;
-   height: 1.6rem;
+  height: 1.6rem;
   cursor: pointer;
   border-radius: 5px;
-  &:hover{
-    box-shadow: 2px 0px 8px rgb(69, 69, 70) ;
+  &:hover {
+    box-shadow: 2px 0px 8px rgba(69, 69, 70, 0.274);
   }
 }

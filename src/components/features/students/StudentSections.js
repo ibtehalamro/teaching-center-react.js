@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { STUDENT_API_ENDPOINTS } from "../../../router/students/StudentUrls";
 import useModal from "./../../../CustomHooks/useModal";
-import { getStudentAssignedSectionsPromise, getStudentDataByIdPromise} from "../../../promises/students/StudentPromises";
+import { getStudentAssignedSectionsPromise, getStudentDataByIdPromise } from "../../../promises/students/StudentPromises";
 import Loader from "../../Layout/Components/Loader";
 import NewPaymentForm from "../payments/NewPaymentForm";
 import ViewStudentSectionPayments from "../payments/ViewStudentSectionPayments";
@@ -13,14 +13,20 @@ import SingleSectionAssignmentToStudentForm from "./SingleSectionAssignmentToStu
 export default function StudentSections() {
   const { studentId } = useParams();
   const { data: studentSections, isLoading } = useQuery(
-    STUDENT_API_ENDPOINTS.GET_STUDENT_ASSIGNED_SECTIONS.key,
+    [STUDENT_API_ENDPOINTS.GET_STUDENT_ASSIGNED_SECTIONS.key, studentId],
     () => getStudentAssignedSectionsPromise(studentId)
   );
+
+  const handleQueryInvalidate = () => {
+    refetch()
+  };
   const [Modal, openModal, closeModal] = useModal();
-  const { data: student } = useQuery(
+  const { data: student, refetch } = useQuery(
     [STUDENT_API_ENDPOINTS.API_GET_STUDENT_BY_ID.key, studentId],
-    () => getStudentDataByIdPromise(studentId)
+    () => getStudentDataByIdPromise(studentId), { onInvalidate: handleQueryInvalidate, }
   );
+
+
 
   if (isLoading) {
     return <Loader />;
@@ -35,7 +41,7 @@ export default function StudentSections() {
 
       <div className="studentInfo">
         <p>
-          <strong style={{fontSize: '.9rem'}}> Student name:</strong> {firstName} {parentName}{" "}
+          <strong style={{ fontSize: '.9rem' }}> Student name:</strong> {firstName} {parentName}{" "}
           {grandParentName} {familyName}
         </p>
         <button
@@ -61,33 +67,37 @@ export default function StudentSections() {
           </div>
         </div>
         {studentSections?.data.map((section) => (
-          <div key={section.id} className="sectionCard">
-           <div className="data">
-          <div>  {section.sectionName || "-"}
+          <div key={section.id} className={"sectionCard" + (section.sum < section.feeTotal ? " not-payed-total" : "")}>
+            <div className="data">
+              <div>  {section.sectionName || "-"}
+              </div>
+              <div>{section.firstName || "-"}
+              </div>
             </div>
-           <div>{section.firstName || "-"}
-            </div> 
-            </div> 
             <div className="buttons">
-               <button className="card-icon" onClick={() => {
-              openModal(
-                <NewPaymentForm
-                  studentId={section.studentId}
-                  sectionId={section.sectionId}
-                />
-              );
-            }}
-            >   <img src={addPayment} alt="Add Payment"  />
-            </button>
-            <button className="card-icon" onClick={() => {
-              openModal(
-                <ViewStudentSectionPayments
-                  studentId={section.studentId}
-                  sectionId={section.sectionId}
-                />
-              );
-            }}>  <img src={viewPayment} alt="View Payment"  /> </button>  </div>
-      
+              <button className="card-icon" onClick={() => {
+                openModal(
+                  <NewPaymentForm
+                    studentId={section.studentId}
+                    sectionId={section.sectionId}
+                    closeModal={closeModal}
+                    refetch={refetch}
+                  />
+                );
+              }}
+              >   <img src={addPayment} alt="Add Payment" />
+              </button>
+              <button className="card-icon" onClick={() => {
+                openModal(
+                  <ViewStudentSectionPayments
+                    feeTotal={section.feeTotal}
+                    paymentsSum={section.sum}
+                    studentId={section.studentId}
+                    sectionId={section.sectionId}
+                  />
+                );
+              }}>  <img src={viewPayment} alt="View Payment" /> </button>  </div>
+
           </div>
         ))}
       </section>

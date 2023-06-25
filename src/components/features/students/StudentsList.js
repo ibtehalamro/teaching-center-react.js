@@ -1,30 +1,39 @@
 import React, { useState } from "react";
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { STUDENT_API_ENDPOINTS } from "../../../router/students/StudentUrls";
-import StudentCard from "./StudentCard";
-import { getStudentsListPromise } from "../../../promises/students/StudentPromises";
+import ModifyStudentForm from "./ModifyStudentForm";
+import { getStudentsListPromise, softDeleteStudentByStudentIdPromise } from "../../../promises/students/StudentPromises";
 import useModal from './../../../CustomHooks/useModal';
 import Loader from "../../Layout/Components/Loader";
-
-
+import FullNameManager from "../../../utils/modals/FullNameManager";
+import sectionsImage from '../../../assets/sections.png'
+import editImage from '../../../assets/edit.jpg'
+import deleteImage from '../../../assets/delete.jpg'
+import { Link, useResolvedPath } from "react-router-dom";
+import { MAIN_APP_URLS } from "../../../Constants/URLConstants/MainAppUrls";
+import TableWithPagination from "../../commonComponents/TableWithPagination";
+import ConfirmAlert from "../../commonComponents/ConfirmAlert";
 const StudentsList = () => {
-  const [updatedItemId, setUpdatedItemId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const pathname = useResolvedPath(`${MAIN_APP_URLS.ADMIN_DASHBOARD}/student`, true).pathname;
+  const { mutate, isLoading } = useMutation(softDeleteStudentByStudentIdPromise, {
+    onSuccess: (data) => {
+      refetch();
+      closeModal();
+    },
+    onError: (error) => {
+      alert("Error deleting teacher" + error);
+    }
+  });
+  const { data: studentsList, isLoading: isStudentsLoaded, error: errorLoadingStudentsList,refetch } =
+    useQuery(STUDENT_API_ENDPOINTS.STUDENTS_LIST.key, getStudentsListPromise);
 
-  const { data: studentsList, isLoading: isStudentsLoaded, error: errorLoadingStudentsList } =
-    useQuery(STUDENT_API_ENDPOINTS.STUDENTS_LIST.key, getStudentsListPromise,
-      {
-        onSettled: (newData, error, variables, previousData) => {
-          if (previousData && newData) {
-            const updatedItem = newData.find((item, index) => {
-              return JSON.stringify(item) !== JSON.stringify(previousData[index]);
-            });
-            if (updatedItem) {
-              setUpdatedItemId(updatedItem.id); // set the ID of the updated item
-            }
-          }
-        }
-      });
   const [Modal, openModal, closeModal] = useModal();
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   if (isStudentsLoaded) {
     return <Loader />;
   }
@@ -32,30 +41,74 @@ const StudentsList = () => {
   if (errorLoadingStudentsList) {
     return <div>Error: {errorLoadingStudentsList.message}</div>;
   }
-  return (
-    <div className="studentsList">
-      <div className={`studentCardTitle `}>
-        <p className="name">
-          Student Name
-        </p>
-        <div className="links">
-          <span>Sections</span>
-          <span>Modify </span>
-        </div>
-      </div>
 
-      {studentsList && studentsList?.data.length > 0 ? (
-        studentsList.data.map((student) => (
-          <StudentCard key={student.id} student={student} openModal={openModal} closeModal={closeModal} />
-        ))
-      ) : (
-        <div>No students</div>
-      )}
-
-      {Modal()}
-    </div>
-
+  const filteredStudents = studentsList?.data.filter((student) => {
+    return FullNameManager.getFullNameFromName(student.name).toLowerCase().includes(searchQuery.toLowerCase())
+  }
   );
 
+
+
+  const headers = ["First Name", "Parent Name", "Grandparent Name", "Family Name", "Sections", "Modify", "Delete"];
+
+  const rowMethod = (student) => {
+    const { firstName, parentName, grandParentName, familyName } = student?.name;
+    return (
+      <tr key={student.id}>
+        <td>{firstName}</td>
+        <td>{parentName}</td>
+        <td>{grandParentName}</td>
+        <td>{familyName}</td>
+        <td>
+        <Link className="card-icon" to={`${pathname}/${student.id}/sections`}>
+                    <img src={sectionsImage} alt="Sections" />
+                </Link>
+        </td>
+        <td>
+        <button className="card-icon" onClick={() => openModal(<ModifyStudentForm studentId={student.id} closeModal={closeModal} />)}>
+                    <img src={editImage} alt="Edit" />
+                </button>
+        </td>
+        <td>
+        <button
+            className="card-icon"
+            onClick={() =>
+              openModal(
+                <ConfirmAlert
+                  message="Are you sure you want to delete student?"
+                  onConfirm={() => mutate(student.id)}
+                  onCancel={closeModal}
+                />
+              )
+            }
+          >
+            <img src={deleteImage} alt="Delete" />
+          </button>
+        </td>
+      </tr>
+
+    );
+  };
+
+  return (
+    <div className="studentsList">
+      <div className="search-box">
+        <input
+          className="search-box__input"
+          type="text"
+          placeholder="Search student..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        <button className="search-box__button" onClick={() => setSearchQuery("")}>
+          Reset
+        </button>
+      </div>
+
+      <TableWithPagination id={"studentsTable"} data={filteredStudents} itemsPerPage={5} rowMethod={rowMethod} headers={headers} />
+      {Modal()}
+    </div>
+  );
 };
+
 export default StudentsList;

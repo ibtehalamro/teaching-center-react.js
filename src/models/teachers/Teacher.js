@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import FullNameManager from '../../utils/modals/FullNameManager';
 import AddressManager from '../../utils/modals/AddressManager';
 import MobileNumberManager from '../../utils/modals/MobileNumberManager';
@@ -50,8 +51,19 @@ class Teacher {
         };
     }
 
+
+    static getTeacherValidation(){
+        return Yup.object().shape({
+            gender: Yup.string()
+             .required('Gender is required')
+        });
+    }
+
     static getValidationSchema() {
-        return FullNameManager.getValidationSchema().concat(AddressManager.getValidationSchema()).concat(MobileNumberManager.getValidationSchema());
+        return FullNameManager.getValidationSchema()
+        .concat(AddressManager.getValidationSchema())
+        .concat(MobileNumberManager.getValidationSchema())
+        .concat(Teacher.getTeacherValidation());
     }
 }
 

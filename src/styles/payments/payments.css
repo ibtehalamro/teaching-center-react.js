@@ -33,4 +33,22 @@
 }
 .studentSectionPayments > table tr:hover {
   background-color: #f5f5f5;
+}
+.studentSectionPayments .payment-info {
+  background-color: #ffffff;
+  color: rgb(5, 48, 141);
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 2rem 0;
+  padding: 1rem 0.5rem;
+  position: relative;
+}
+.studentSectionPayments .payment-info :before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background-color: #c8cbd1;
 }/*# sourceMappingURL=payments.css.map */

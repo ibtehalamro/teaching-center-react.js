@@ -4,48 +4,33 @@ import { useQuery } from 'react-query';
 import { getSectionStudentsPromise } from '../../../promises/sections/SectionPromises';
 import Loader from '../../Layout/Components/Loader';
 import { getDateFromTimeStamp } from '../../../utils/DateUtils';
+import TableWithPagination from '../../commonComponents/TableWithPagination';
 
 export default function SectionStudents({ sectionId }) {
     const { data: students, isLoading } = useQuery([API_SECTIONS_URL.API_GET_SECTION_STUDENTS_BY_SECTION_ID.key, sectionId], () => getSectionStudentsPromise(sectionId));
+
+
+    const rowMethod = (student) => {
+        return <tr>
+            <td>{`${student.firstName} ${student.parentName} ${student.grandParentName} ${student.familyName}`}</td>
+            <td>{student.city}</td>
+            <td>{student.mobileNumber}</td>
+            <td>{getDateFromTimeStamp(student.createdAt)}</td>
+            <td>{getDateFromTimeStamp(student.updatedAt)}</td>
+        </tr>
+    }
+    const headers = ["Full Name", "City", "Mobile Number", "Created At", "Updated At"];
 
     if (isLoading) {
         return <Loader />;
     }
     return (
         <div className='sections'>
-
             <div className='title'>
                 <span className='page-title'>Section Students</span>
             </div>
             <div className='section__studentsList'>
-                <div className='table-head'>
-                <table >
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>City</th>
-                            <th>Mobile Number</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                        </tr>
-                    </thead>
-                </table>
-                </div>
-                <div className='table-body'>
-                    <table >
-                        <tbody>
-                            {students?.data.map((data) => <tr>
-                                <td>{`${data.firstName} ${data.parentName} ${data.grandParentName} ${data.familyName}`}</td>
-                                <td>{data.city}</td>
-                                <td>{data.mobileNumber}</td>
-                                <td>{getDateFromTimeStamp(data.created_at)}</td>
-                                <td>{getDateFromTimeStamp(data.updated_at)}</td>
-
-                            </tr>)} 
-
-                        </tbody>
-                    </table>
-                </div>
+                <TableWithPagination data={students.data} itemsPerPage={5} rowMethod={rowMethod} headers={headers} />
             </div>
         </div>
     )

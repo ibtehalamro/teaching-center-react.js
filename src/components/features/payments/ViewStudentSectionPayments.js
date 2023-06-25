@@ -1,15 +1,18 @@
-import React from 'react'
-import { useMutation, useQuery } from 'react-query'
+import React from 'react';
+import { useMutation, useQuery } from 'react-query';
 import { PAYMENT_API_ENDPOINTS } from '../../../router/payments/PaymentUrls';
 import { deleteStudentSectionPaymentPromise, viewStudentSectionPaymentsPromise } from './../../../promises/payments/PaymentPromises';
 import Loader from '../../Layout/Components/Loader';
 import { getDateFromTimeStamp } from './../../../utils/DateUtils';
-import deleteImage from '../../../assets/delete.jpg'
+import deleteImage from '../../../assets/delete.jpg';
 
+export default function ViewStudentSectionPayments({ studentId, sectionId, feeTotal }) {
+  const { data: sectionPayments, isLoading, refetch } = useQuery(
+    [PAYMENT_API_ENDPOINTS.VIEW_STUDENT_SECTION_PAYMENTS.key, studentId, sectionId],
+    () => viewStudentSectionPaymentsPromise(studentId, sectionId)
+  );
 
-export default function ViewStudentSectionPayments({ studentId, sectionId }) {
-  const { data: sectionPayments, isLoading, refetch } = useQuery([PAYMENT_API_ENDPOINTS.VIEW_STUDENT_SECTION_PAYMENTS.key, studentId, sectionId], () => viewStudentSectionPaymentsPromise(studentId, sectionId))
-  const deletePaymentMutation = useMutation( deleteStudentSectionPaymentPromise, {
+  const deletePaymentMutation = useMutation(deleteStudentSectionPaymentPromise, {
     onSuccess: () => {
       refetch();
     },
@@ -19,15 +22,19 @@ export default function ViewStudentSectionPayments({ studentId, sectionId }) {
     },
   });
 
-  const handleDeletePayment = (paymentId,studentPaymentId) => {
-    deletePaymentMutation.mutate({paymentId,studentPaymentId});
+  const handleDeletePayment = (paymentId, studentPaymentId) => {
+    deletePaymentMutation.mutate({ paymentId, studentPaymentId });
   };
+
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
+
+  const paymentsSum = sectionPayments?.data.reduce((sum, payment) => sum + payment.amount, 0);
+
   return (
-    <div className='studentSectionPayments' >
-      <p className='page-title'>Section payments </p>
+    <div className='studentSectionPayments'>
+      <p className='page-title'>Section payments</p>
       <table>
         <thead>
           <tr>
@@ -39,19 +46,24 @@ export default function ViewStudentSectionPayments({ studentId, sectionId }) {
           </tr>
         </thead>
         <tbody>
-          {sectionPayments?.data.map(payment => (
+          {sectionPayments?.data.map((payment) => (
             <tr key={payment.id}>
               <td>{payment.amount}</td>
-              <td>{payment.currency || "ILS"}</td>
+              <td>{payment.currency || 'ILS'}</td>
               <td>{getDateFromTimeStamp(payment.createdAt)}</td>
               <td>{getDateFromTimeStamp(payment.updatedAt)}</td>
-              <td><button className="card-icon" onClick={() => handleDeletePayment(payment.paymentId,payment.studentPaymentId)}>         
-                     <img src={deleteImage} alt="Edit"  />
-</button></td>
+              <td>
+                <button className='card-icon' onClick={() => handleDeletePayment(payment.paymentId, payment.studentPaymentId)}>
+                  <img src={deleteImage} alt='Delete' />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className='payment-info'>
+        <span>Paid {paymentsSum} of {feeTotal}</span>
+      </div>
     </div>
-  )
+  );
 }

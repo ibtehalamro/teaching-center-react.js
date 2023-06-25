@@ -20,9 +20,9 @@ function useModal() {
     return (<>
       {showModal && (
         <div className="modalOverlay">
-          <div className="modal ">
+          <div className="modal">
             {modalContent}
-            <button onClick={toggleModal}>Close</button>
+            <button onClick={toggleModal}>X</button>
           </div>
         </div>
       )}

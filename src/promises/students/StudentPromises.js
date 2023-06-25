@@ -36,3 +36,10 @@ export const singleSectionAssignmentToStudentPromise = async (data) => {
     const response = await axios.post(STUDENT_API_ENDPOINTS.POST_MULTIPLE_SECTIONS_TO_STUDENT.url(data.studentId),data);
     return response.data;
 };
+
+
+
+export const softDeleteStudentByStudentIdPromise = async (studentId) => {
+    const response = await axios.delete(STUDENT_API_ENDPOINTS.SOFT_DELETE_STUDENT_BY_STUDENT_ID.url(studentId));
+    return response.data;
+};
