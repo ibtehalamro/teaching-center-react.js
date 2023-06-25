@@ -22,11 +22,11 @@ export default function AdminDashboardRouter() {
                 <React.Suspense fallback={<Loader />}>
                     <Routes>
                         <Route path={studentUrls.ROUTER + "/*"} element={<LazyStudentComponent />} />
-                       <Route path={CourseUrls.ROUTER + "/*"} element={<LazyCourseComponent />} />
-                         <Route path={SectionUrls.ROUTER + "/*"} element={<LazySectionComponent />} />
+                        <Route path={CourseUrls.ROUTER + "/*"} element={<LazyCourseComponent />} />
+                        <Route path={SectionUrls.ROUTER + "/*"} element={<LazySectionComponent />} />
                         <Route exact path={TeacherUrls.ROUTER + "/*"} element={<LazyTeacherComponent />} />
-                        <Route exact path={PaymentUrls.ROUTER + "/*"} element={<LazyPaymentComponent />} /> 
-           
+                        <Route exact path={PaymentUrls.ROUTER + "/*"} element={<LazyPaymentComponent />} />
+
                     </Routes>
                 </React.Suspense>
             </AdminDashboardLayout>

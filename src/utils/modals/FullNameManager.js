@@ -45,28 +45,32 @@ class FullNameManager {
     return `${this.firstName} ${this.parentName} ${this.grandParentName} ${this.familyName}`;
   }
 
+  static getFullNameFromName(name) {
+    return `${name.firstName} ${name.parentName} ${name.grandParentName} ${name.familyName}`;
+  }
+
   static getValidationSchema() {
     return Yup.object().shape({
       name: Yup.object().shape({
         firstName: Yup.string()
           .required('First name is required')
           .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'First name must contain only letters.')
-          .matches(/^\S+$/, 'Name must not contain spaces')
+        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
           .typeError('First name must be a string'),
         parentName: Yup.string()
           .required('Parent name is required')
           .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'Parent name must contain only letters.')
-          .matches(/^\S+$/, 'Name must not contain spaces')
+        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
           .typeError('Parent name must be a string'),
         grandParentName: Yup.string()
           .required('Grandparent name is required')
           .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'Grand parent name must contain only letters.')
-          .matches(/^\S+$/, 'Name must not contain spaces')
+        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
           .typeError('Grand parent name must be a string'),
         familyName: Yup.string()
           .required('Family name is required')
           .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'Family name must contain only letters.')
-          .matches(/^\S+$/, 'Name must not contain spaces')
+        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
           .typeError('Family name must be a string')
       })
     });

@@ -27,11 +27,6 @@ const EditSectionForm = ({ courseId, courseName }) => {
     <div className={"form_container"}>
       <h1 className={"form_container_title"}>Create New Section for {courseName} Course</h1>
       <form className={"form"} onSubmit={(event) => "submit(event, router)"}>
-        {/* <DateInput elementClass={"form__group"} name="startDate" label="Start date" />
-      <DateInput elementClass={"form__group"} name="endDate" label="End date" />
-      <TimeInput elementClass={"form__group"} name="startTime" label="Start time" />
-      <TimeInput elementClass={"form__group"} name="endTime" label="End time" /> */}
-
         <input
           className={"textInput"}
           type="number"

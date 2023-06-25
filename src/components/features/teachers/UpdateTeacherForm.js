@@ -1,16 +1,17 @@
 import React from 'react';
-import { useMutation } from 'react-query';
-import { saveNewTeacherDataPromise } from '../../../promises/teachers/TeacherPromises';
+import { useMutation, useQuery } from 'react-query';
+import { getTeacherDataByTeacherIdPromise, updateTeacherFormDataPromise } from '../../../promises/teachers/TeacherPromises';
 import Select from '../../Form/Select';
 import Input from '../../Form/Input';
 import FormWithValidation from '../../../HigherOrderComponents/FormWithValidation';
-import Teacher from './../../../models/teachers/Teacher';
+import Teacher from '../../../models/teachers/Teacher';
+import { API_TEACHER_URLS } from '../../../router/teachers/TeacherUrls';
 
 
-const TeacherForm = ({ methods })=> {
+const UpdateTeacherForm = ({ methods, teacherId }) => {
   const { handleSubmit, control, reset } = methods;
 
-  const { mutate, isLoading, isError, error, data } = useMutation(saveNewTeacherDataPromise, {
+  const { mutate, isLoading, isError, error, data } = useMutation(updateTeacherFormDataPromise, {
     onSuccess: (data) => {
       handleSubmitResponse(data);
     },
@@ -19,13 +20,22 @@ const TeacherForm = ({ methods })=> {
     }
   });
 
+  const teacherQuery = useQuery([API_TEACHER_URLS.API_GET_TEACHER_BY_ID.key, teacherId],
+    () => getTeacherDataByTeacherIdPromise(teacherId),
+    {
+      onSuccess: (data) => {
+        console.log('data', data.data)
+        reset(data.data[0]);
+      }
+    });
+
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
 
   const handleSubmitResponse = (response) => {
     if (response.status === "ERROR") {
-      alert("Teacher with same name exists.");
+      alert(response.message);
     }
     if (response.status === "SUCCESS") {
       alert("Teacher info saved successfully.");
@@ -33,13 +43,14 @@ const TeacherForm = ({ methods })=> {
     }
   };
 
-  const submitTeacherForm = (student) => {
-    mutate(student);
+  const submitTeacherForm = (teacher) => {
+    teacher.id = teacherId;
+    mutate(teacher);
   }
 
   return (
-  <div className='teacher form_container'>
-      <h1 className={"form_container_title"}>Create New Teacher</h1>
+    <div className='teacher form_container'>
+      <h1 className={"form_container_title"}>Update Teacher</h1>
       <form id="addTeacherForm" className={"form"} onSubmit={handleSubmit(submitTeacherForm)}>
         <div className='form-group-row '>
           <Input name="name.firstName" label="First Name" control={control} />
@@ -64,6 +75,6 @@ const TeacherForm = ({ methods })=> {
           disabled={isLoading} />
       </form>
     </div>
-   )
+  )
 }
-export default FormWithValidation(Teacher.getValidationSchema())(TeacherForm)
+export default FormWithValidation(Teacher.getValidationSchema())(UpdateTeacherForm)

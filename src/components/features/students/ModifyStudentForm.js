@@ -22,6 +22,7 @@ function ModifyStudentForm({ methods, studentId, closeModal }) {
   const studentQuery =
     useQuery([STUDENT_API_ENDPOINTS.API_GET_STUDENT_BY_ID.key, studentId], () => getStudentDataByIdPromise(studentId), {
       onSuccess: (data) => {
+        console.log('data', data)
         reset(data.data);
       }
     });

@@ -3,48 +3,15 @@
     padding: 1rem;
 }
 
-.teachersList {
-  .teacherCardTitle {
-    background-color: #d1d3d4;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  > .teacherList__card {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    > .name {
-      flex: 3;
-    }
-
-    > .links {
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      gap: 1rem;
-    }
-
-    &.title {
-      background-color: #dae0e5;
-      border: 1px solid rgb(158, 166, 238);
-    }
-
-    &:hover {
-      background-color: #e3edf7;
-    }
+.teachersList { 
+  margin: 1rem;
+  #teachersTable{
+   & th:nth-child(-n + 4) ,td:nth-child(-n + 4) {
+      width: 20%;
+     }
+   & th:not(:nth-child(-n + 4)),td:not(:nth-child(-n + 4)){
+    width: 6%;
+   }
   }
 }
 
