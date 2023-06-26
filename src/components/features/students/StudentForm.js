@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
  
 const StudentForm = ({ methods })=> {
   const { handleSubmit, control, reset } = methods;
-  const { t ,i18n} = useTranslation();
+  const { t } = useTranslation();
 
   const { mutate, isLoading, isError, error, data } = useMutation(saveNewStudentDataPromise, {
     onSuccess: (data) => {

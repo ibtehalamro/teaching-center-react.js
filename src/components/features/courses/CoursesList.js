@@ -7,11 +7,13 @@ import { MAIN_APP_URLS } from '../../../Constants/URLConstants/MainAppUrls';
 import Loader from '../../Layout/Components/Loader';
 import sectionsImage from '../../../assets/sections.png'
 import TableWithPagination from '../../commonComponents/TableWithPagination';
+import { useTranslation } from 'react-i18next';
 
 
 const CoursesList = () => {
   const getCoursesQuery = useQuery(API_COURSE_URLS.API_GET_COURSES_LIST.key, getCoursesListPromise);
   const pathname = useResolvedPath(`${MAIN_APP_URLS.ADMIN_DASHBOARD}/course`, true).pathname;
+  const { t } = useTranslation();
 
   const { data: courses, isLoading: isCoursesLoading } = getCoursesQuery;
   if (isCoursesLoading) {
@@ -19,8 +21,12 @@ const CoursesList = () => {
   }
 
 
-  const headers = ["Course Name", "Type", "# of Sections", "Sections"];
-
+  const headers = [
+    t('courseHeaders.courseName'),
+    t('courseHeaders.type'),
+    t('courseHeaders.numberOfSections'),
+    t('courseHeaders.sections')
+  ];
   const rowMethod = (course) => {
     return (
       <tr key={course.id}>

@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import FullNameManager from '../../utils/modals/FullNameManager';
 import AddressManager from '../../utils/modals/AddressManager';
 import MobileNumberManager from '../../utils/modals/MobileNumberManager';
+import i18next from 'i18next';
 class Teacher {
     constructor(id, fullNameManager, addressManager, mobileNumberManager) {
         this.id = id;
@@ -55,7 +56,7 @@ class Teacher {
     static getTeacherValidation(){
         return Yup.object().shape({
             gender: Yup.string()
-             .required('Gender is required')
+             .required(i18next.t("REQUIRED"))
         });
     }
 

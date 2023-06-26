@@ -5,10 +5,11 @@ import { getSectionStudentsPromise } from '../../../promises/sections/SectionPro
 import Loader from '../../Layout/Components/Loader';
 import { getDateFromTimeStamp } from '../../../utils/DateUtils';
 import TableWithPagination from '../../commonComponents/TableWithPagination';
+import { useTranslation } from 'react-i18next';
 
 export default function SectionStudents({ sectionId }) {
     const { data: students, isLoading } = useQuery([API_SECTIONS_URL.API_GET_SECTION_STUDENTS_BY_SECTION_ID.key, sectionId], () => getSectionStudentsPromise(sectionId));
-
+    const { t } = useTranslation();
 
     const rowMethod = (student) => {
         return <tr>
@@ -19,8 +20,13 @@ export default function SectionStudents({ sectionId }) {
             <td>{getDateFromTimeStamp(student.updatedAt)}</td>
         </tr>
     }
-    const headers = ["Full Name", "City", "Mobile Number", "Created At", "Updated At"];
-
+    const headers = [
+        t('sectionHeaders.fullName'),
+        t('sectionHeaders.city'),
+        t('sectionHeaders.mobileNumber'),
+        t('sectionHeaders.createdAt'),
+        t('sectionHeaders.updatedAt')
+      ];
     if (isLoading) {
         return <Loader />;
     }

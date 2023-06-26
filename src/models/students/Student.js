@@ -69,17 +69,9 @@ class Student {
         .concat(Student.getStudentValidation());
     }
 
-    static getArabicValidationSchema() {
-        return FullNameManager.getValidationSchema()
-        .concat(AddressManager.getValidationSchema())
-        .concat(MobileNumberManager.getValidationSchema())
-        .concat(Student.getStudentValidation());
-    }
-
+  
     static getAssignMultipleStudentsToSectionValidation(){
         return Yup.object().shape({
-
-          
         }); 
     }
 
