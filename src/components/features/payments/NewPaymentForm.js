@@ -6,10 +6,12 @@ import { useMutation, useQueryClient } from "react-query";
 import Input from "../../Form/Input";
 import { STUDENT_API_ENDPOINTS } from "../../../router/students/StudentUrls";
 import { PAYMENT_API_ENDPOINTS } from "../../../router/payments/PaymentUrls";
+import { useTranslation } from "react-i18next";
 
 const NewPaymentForm = ({ methods, studentId, sectionId,closeModal,refetch }) => {
   const { handleSubmit, control, reset } = methods;
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const { mutate, data: updatedStudent } = useMutation(saveStudentSectionPayment, {
     onSuccess: (data) => {
@@ -33,13 +35,11 @@ const NewPaymentForm = ({ methods, studentId, sectionId,closeModal,refetch }) =>
     mutate(payment)
   }
   return (
-    <div className={"form_container payment-form"}>
-      <h1 className={"form_container_title"}>Create New Payment</h1>
-      <form className={"form"} onSubmit={handleSubmit(submitPaymentFrom)}>
-
-        <Input name="amount" label="Amount" control={control} type="number" />
-
-        <input type="submit" value={"add payment"} />
+    <div className="form_container payment-form">
+      <h1 className="form_container_title">{t('formContainerTitle')}</h1>
+      <form className="form" onSubmit={handleSubmit(submitPaymentFrom)}>
+        <Input name="amount" label={t('amountLabel')} control={control} type="number" />
+        <input type="submit" value={t('addPaymentButton')} />
       </form>
     </div>
   );

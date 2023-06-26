@@ -11,7 +11,10 @@ import deleteImage from '../../../assets/delete.jpg'
 import TeacherSections from "./TeacherSections";
 import UpdateTeacherForm from "./UpdateTeacherForm";
 import ConfirmAlert from "../../commonComponents/ConfirmAlert";
+import { useTranslation } from "react-i18next";
 const TeachersList = () => {
+  const { t } = useTranslation();
+
   const { mutate, isLoading } = useMutation(softDeleteTeacherByTeacherIdPromise, {
     onSuccess: (data) => {
       refetch();
@@ -36,7 +39,13 @@ const TeachersList = () => {
   if (teachersList?.data.length === 0) {
     return <div>No Teachers</div>
   }
-  const headers = ["First Name", "Parent Name", "Grandparent Name", "Family Name", "Sections", "Modify", "Delete"];
+  const headers = [t('First_Name'),
+  t('Parent_Name'),
+  t('Grandparent_Name'),
+  t('Family_Name'),
+  t('Sections'),
+  t('Modify'),
+  t('Delete')];
 
   const rowMethod = (teacher) => {
     const { firstName, parentName, grandParentName, familyName } = teacher?.name;

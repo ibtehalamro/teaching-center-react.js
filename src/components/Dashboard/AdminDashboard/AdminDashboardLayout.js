@@ -9,7 +9,7 @@ export default function AdminDashboardLayout(props) {
             {/* <Header /> */}
             <SideNavbar />
             {props.children}
-            <Footer />
+            {/* <Footer /> */}
         </main>
     )
 }

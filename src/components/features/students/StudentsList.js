@@ -13,7 +13,9 @@ import { Link, useResolvedPath } from "react-router-dom";
 import { MAIN_APP_URLS } from "../../../Constants/URLConstants/MainAppUrls";
 import TableWithPagination from "../../commonComponents/TableWithPagination";
 import ConfirmAlert from "../../commonComponents/ConfirmAlert";
+import { useTranslation } from "react-i18next";
 const StudentsList = () => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const pathname = useResolvedPath(`${MAIN_APP_URLS.ADMIN_DASHBOARD}/student`, true).pathname;
   const { mutate, isLoading } = useMutation(softDeleteStudentByStudentIdPromise, {
@@ -49,7 +51,13 @@ const StudentsList = () => {
 
 
 
-  const headers = ["First Name", "Parent Name", "Grandparent Name", "Family Name", "Sections", "Modify", "Delete"];
+  const headers = [t('First_Name'),
+  t('Parent_Name'),
+  t('Grandparent_Name'),
+  t('Family_Name'),
+  t('Sections'),
+  t('Modify'),
+  t('Delete')];
 
   const rowMethod = (student) => {
     const { firstName, parentName, grandParentName, familyName } = student?.name;

@@ -99,10 +99,10 @@ a {
     }
     }
   }
-  .table-head {
+  .table-head:dir(rtl) {
     margin-right: 10px;
   }
-  .table-body {
+  .table-body:dir(rtl) {
     overflow-y: scroll;
     max-height: 40vh;
     &::-webkit-scrollbar {

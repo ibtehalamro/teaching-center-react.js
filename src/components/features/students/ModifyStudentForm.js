@@ -48,7 +48,7 @@ function ModifyStudentForm({ methods, studentId, closeModal }) {
 
   return (
     <div className='student__form form_container'>
-      <h1 className={"form_container_title"}>Create New Student</h1>
+      <h1 className={"form_container_title"}>Modify Student</h1>
       <form id="addStudentForm" className={"form"} onSubmit={handleSubmit(submitUpdatedStudentData)}>
         <div className='form-group-row '>
           <Input name="name.firstName" label="First Name" control={control} />

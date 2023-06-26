@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { ENGLISH_ARABIC_ONLY_LETTERS_REGEX } from './../../Constants/URLConstants/RegexConstants';
+import i18next from 'i18next';
 
 class FullNameManager {
   constructor(firstName, parentName, grandParentName, familyName) {
@@ -53,24 +54,24 @@ class FullNameManager {
     return Yup.object().shape({
       name: Yup.object().shape({
         firstName: Yup.string()
-          .required('First name is required')
-          .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'First name must contain only letters.')
-        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
+        .required(i18next.t("REQUIRED"))
+        .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX,i18next.t("STRING_VALUE"))
+        .matches(/^\S+(?: \S+)*$/, i18next.t("ACCEPT_SPACE"))
           .typeError('First name must be a string'),
         parentName: Yup.string()
-          .required('Parent name is required')
-          .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'Parent name must contain only letters.')
-        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
+        .required(i18next.t("REQUIRED"))
+        .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX,i18next.t("STRING_VALUE"))
+        .matches(/^\S+(?: \S+)*$/, i18next.t("ACCEPT_SPACE"))
           .typeError('Parent name must be a string'),
         grandParentName: Yup.string()
-          .required('Grandparent name is required')
-          .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'Grand parent name must contain only letters.')
-        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
-          .typeError('Grand parent name must be a string'),
+          .required(i18next.t("REQUIRED"))
+          .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, i18next.t("STRING_VALUE"))
+        .matches(/^\S+(?: \S+)*$/, i18next.t("ACCEPT_SPACE"))
+          .typeError(i18next.t("STRING_VALUE")),
         familyName: Yup.string()
-          .required('Family name is required')
-          .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, 'Family name must contain only letters.')
-        .matches(/^\S+(?: \S+)*$/, 'Name must not contain leading or trailing spaces, and can include spaces between parts.')
+        .required(i18next.t("REQUIRED"))
+        .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX, i18next.t("STRING_VALUE"))
+        .matches(/^\S+(?: \S+)*$/,i18next.t("ACCEPT_SPACE"))
           .typeError('Family name must be a string')
       })
     });
