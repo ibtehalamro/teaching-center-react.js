@@ -29,8 +29,8 @@ const CourseSections = () => {
 
     <div className="courses__sections-container">
       <div className='title'>
-        <p className='page-title'>Course Name: {courseSections?.data[0]?.courseName}</p>
-        <button className='actionButton' onClick={() => openModal(<NewSectionForm courseId={courseId} />)}>New Section</button>
+        <p className='page-title'>{t('courseHeaders.courseName')}: {courseSections?.data[0]?.courseName}</p>
+        <button className='actionButton' onClick={() => openModal(<NewSectionForm courseId={courseId} />)}>{t('section.newSection')}</button>
       </div>
 
       <div className='list'>
@@ -64,7 +64,7 @@ const CourseSections = () => {
                   <button className='card-icon' onClick={() => openModal(<SectionStudents sectionId={item.sectionId} />)}> <img src={students} alt="Students" /> </button>
                 </td>
                 <td>
-                  <button className='actionButton2' onClick={() => openModal(<SingleStudentAssignmentToSectionForm sectionId={item.sectionId} feeTotal={item.feeTotal} closeModal={closeModal} />)}>add student</button>
+                  <button className='actionButton2' onClick={() => openModal(<SingleStudentAssignmentToSectionForm sectionId={item.sectionId} feeTotal={item.feeTotal} closeModal={closeModal} />)}>{t('student.addStudent')}</button>
                 </td>
                   {/* <td>
                     <button className='card-icon actionButton2' 

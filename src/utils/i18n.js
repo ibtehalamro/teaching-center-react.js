@@ -84,13 +84,31 @@ const resources = {
         "numberOfSections": "# of Sections",
         "sections": "Sections"
       },
+      "section":{"newSection":"New Section"},
       "sectionHeaders": {
         "fullName": "Full Name",
         "city": "City",
         "mobileNumber": "Mobile Number",
         "createdAt": "Created At",
         "updatedAt": "Updated At"
-      }
+      },
+      "teacherSections": {
+        "title": "Teacher Name: {{teacherName}}",
+        "tableHeaders": {
+          "sectionName": "Section Name",
+          "endDate": "End Date",
+          "startDate": "Start Date",
+          "endTime": "End Time",
+          "startTime": "Start Time"
+        }
+      },
+      "student":{
+        "addStudent":"Add student"
+      },
+      "assignStudentToSection": "Assign Student To Section",
+      "discount": "Discount",
+      "feeTotal": "Fee Total",
+      "submit": "Submit"
     },
 
   },
@@ -177,9 +195,26 @@ const resources = {
         "mobileNumber": "رقم الجوال",
         "createdAt": "تم الإنشاء في",
         "updatedAt": "تم التحديث في"
-      }
-    },
-
+      }, "teacherSections": {
+        "title": "اسم المعلم: {{teacherName}}",
+        "tableHeaders": {
+          "sectionName": "اسم القسم",
+          "endDate": "تاريخ الانتهاء",
+          "startDate": "تاريخ البدء",
+          "endTime": "وقت الانتهاء",
+          "startTime": "وقت البدء"
+        }
+      },
+      "section":{"newSection":"قسم جديد"},
+ 
+    "student":{
+      "addStudent":"اضف طالب"
+    }, "assignStudentToSection": "تعيين الطالب إلى القسم",
+    "discount": "خصم",
+    "feeTotal": "مجموع الرسوم",
+    "submit": "تقديم"
+    }
+   
   },
 
 };
