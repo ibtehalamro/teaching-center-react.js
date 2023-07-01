@@ -1,4 +1,6 @@
+import i18next from 'i18next';
 import * as Yup from 'yup';
+import { ENGLISH_ARABIC_ONLY_LETTERS_REGEX } from '../../Constants/URLConstants/RegexConstants';
 
 class Course {
     id = 0;
@@ -20,12 +22,13 @@ class Course {
     static getValidationSchema() {
         return Yup.object().shape({
             name: Yup.string()
-                .required('Course name is required')
-                .matches(/^[a-zA-Z\s]*$/, 'Course name must contain only letters.')
+                .required(i18next.t("REQUIRED"))
+                .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX,i18next.t("STRING_VALUE"))
+                .matches(/^\S+(?: \S+)*$/, i18next.t("ACCEPT_SPACE"))
                 .typeError('Course name must be a string'),
             type: Yup.string()
-                .required('Major name is required')
-                .matches(/^[a-zA-Z\s]*$/, 'Type name must contain only letters.')
+                .required(i18next.t("REQUIRED"))
+                .matches(ENGLISH_ARABIC_ONLY_LETTERS_REGEX,i18next.t("STRING_VALUE"))
                 .typeError('Major name must be a string'),
         });
     }

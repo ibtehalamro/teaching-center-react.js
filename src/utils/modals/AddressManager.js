@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import * as Yup from 'yup';
 class AddressManager {
     constructor(street, city) {
@@ -33,7 +34,8 @@ class AddressManager {
                     .typeError('Street name must be a string'),
                 city: Yup.string()
                     .matches(/^[a-zA-Z\s]*$/, 'City name must contain only letters.')
-                    .required('City is required').typeError('City name must be a string')
+                    .required(i18next.t("REQUIRED"))
+                    .typeError(i18next.t("STRING_VALUE"))
             })
         });
     }

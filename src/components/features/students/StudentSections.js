@@ -10,7 +10,10 @@ import ViewStudentSectionPayments from "../payments/ViewStudentSectionPayments";
 import viewPayment from "../../../assets/viewPayment.png";
 import addPayment from "../../../assets/addPayments.png";
 import SingleSectionAssignmentToStudentForm from "./SingleSectionAssignmentToStudentForm";
+import { useTranslation } from "react-i18next";
 export default function StudentSections() {
+  const { t } = useTranslation();
+
   const { studentId } = useParams();
   const { data: studentSections, isLoading } = useQuery(
     [STUDENT_API_ENDPOINTS.GET_STUDENT_ASSIGNED_SECTIONS.key, studentId],
@@ -37,32 +40,28 @@ export default function StudentSections() {
 
   return (
     <div className="studentSections page">
-      <h1 className="page-title">Student assigned sections</h1>
+      <h1 className="page-title">{t("StudentAssignedSections")}</h1>
 
       <div className="studentInfo">
         <p>
-          <strong style={{ fontSize: '.9rem' }}> Student name:</strong> {firstName} {parentName}{" "}
+          <strong style={{ fontSize: '.9rem' }}>{t('StudentName')}:</strong> {firstName} {parentName}{" "}
           {grandParentName} {familyName}
         </p>
-        <button
-          className="actionButton"
-          onClick={() =>
-            openModal(<SingleSectionAssignmentToStudentForm studentId={studentId} closeModal={closeModal} />)
-          }
-        >
-          Assign to section
+        <button className="actionButton"
+          onClick={() => openModal(<SingleSectionAssignmentToStudentForm studentId={studentId} closeModal={closeModal} />)}        >
+           {t('assignToSection')}
         </button>
       </div>
 
       <section className="studentSections__list">
         <div className="sectionCard">
           <div className="data">
-            <strong>Section Name </strong>
-            <strong>Teacher Name </strong>
+            <strong>{t('sectionName')}</strong>
+            <strong>{t('teacherName')}</strong>
           </div>
           <div className="buttons">
-            <strong> Add payment </strong>
-            <strong> View payments </strong>
+            <strong>{t('addPayment')}</strong>
+            <strong>{t('viewPayments')}</strong>
 
           </div>
         </div>
@@ -71,7 +70,7 @@ export default function StudentSections() {
             <div className="data">
               <div>  {section.sectionName || "-"}
               </div>
-              <div>{section.firstName || "-"}
+              <div>{(section.firstName + " " + section.parentName + " " + section.grandParentName + " " + section.familyName) || "-"}
               </div>
             </div>
             <div className="buttons">

@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import FullNameManager from '../../utils/modals/FullNameManager';
 import AddressManager from '../../utils/modals/AddressManager';
 import MobileNumberManager from '../../utils/modals/MobileNumberManager';
+import i18next from 'i18next';
 
 class Student {
     constructor(id, fullNameManager, addressManager, mobileNumberManager) {
@@ -57,7 +58,7 @@ class Student {
    static getStudentValidation(){
         return Yup.object().shape({
             gender: Yup.string()
-             .required('Gender is required')
+             .required(i18next.t("REQUIRED"))
         });
     }
 
@@ -68,10 +69,9 @@ class Student {
         .concat(Student.getStudentValidation());
     }
 
+  
     static getAssignMultipleStudentsToSectionValidation(){
         return Yup.object().shape({
-
-          
         }); 
     }
 

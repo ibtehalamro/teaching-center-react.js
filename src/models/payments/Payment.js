@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import * as Yup from 'yup';
 
 export class Payment{
@@ -6,7 +7,7 @@ export class Payment{
 
     static getValidationSchema() {
         return Yup.object().shape({
-            amount: Yup.number().positive("Number must be greater than zero").required().typeError('Please enter a valid number'),
+            amount: Yup.number().positive(i18next.t("greaterThanZero")).required().typeError('Please enter a valid number'),
         });
     }
 }

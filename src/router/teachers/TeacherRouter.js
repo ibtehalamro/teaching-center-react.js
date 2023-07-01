@@ -5,14 +5,22 @@ import { TeacherUrls } from "./TeacherUrls";
 import TeacherHome from './../../components/features/teachers/TeacherHome';
 import TeacherForm from './../../components/features/teachers/TeacherForm';
 import TeachersList from './../../components/features/teachers/TeachersList';
+import { useTranslation } from "react-i18next";
 
 const TeacherRouter=()=>{
+  const { t } = useTranslation();
     const pathname = useResolvedPath("").pathname;
  return   <div className="teacher-wrapper">
     <div className="buttons-container">
-      <NavLink className="cross-fade-button" to={`${pathname}${TeacherUrls.HOME}`}>Home</NavLink>
-      <NavLink className="cross-fade-button" to={`${pathname}${TeacherUrls.NEW_TEACHER_FORM}`}>New Teacher</NavLink>
-      <NavLink className="cross-fade-button" to={`${pathname}${TeacherUrls.TEACHER_LIST}`}>Teachers List</NavLink>
+    <NavLink className="cross-fade-button" to={`${pathname}${TeacherUrls.HOME}`}>
+        {t('navBarLinks.home')}
+      </NavLink>
+      <NavLink className="cross-fade-button" to={`${pathname}${TeacherUrls.NEW_TEACHER_FORM}`}>
+        {t('navBarLinks.newTeacher')}
+      </NavLink>
+      <NavLink className="cross-fade-button" to={`${pathname}${TeacherUrls.TEACHER_LIST}`}>
+        {t('navBarLinks.teachersList')}
+      </NavLink>
      </div>
 
     <Routes>

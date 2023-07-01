@@ -7,9 +7,11 @@ import { useMutation, useQuery } from 'react-query';
 import { getCourseTypesPromise, saveNewCoursePromise } from '../../../promises/course/CoursePromises';
 import Loader from '../../Layout/Components/Loader';
 import { API_COURSE_URLS } from '../../../router/courses/CourseUrls';
+import { useTranslation } from 'react-i18next';
 
 const CourseForm = ({ methods }) => {
   const { handleSubmit, control, reset } = methods;
+  const { t } = useTranslation();
 
   const { data: courseTypes, isLoading } =
     useQuery(API_COURSE_URLS.API_GET_COURSES_TYPES.key, getCourseTypesPromise, {
@@ -38,13 +40,6 @@ const CourseForm = ({ methods }) => {
     }
     if (response.status === "SUCCESS") {
       alert("Course info saved successfully.");
-      //TODO: check bellow commented if needed
-      // queryCache.setQueryData(apiStudentUrls.API_STUDENTS_LIST.key, (prevList) => {
-      //   return prevList.map((student) =>
-      //     student.id === updatedStudent.id ? updatedStudent : student
-      //   );
-      // });
-
     }
   };
   const submitNewCourseFormHandler = (course) => {
@@ -54,19 +49,22 @@ const CourseForm = ({ methods }) => {
 
   return (
     <div className={"course form_Container "}>
-      <h1 className={"form_container_title"}>Create New Course</h1>
-      <form className={"form"} onSubmit={handleSubmit(submitNewCourseFormHandler)}>
-        <Input name="name" label="Course Name" control={control} />
-        {courseTypes && <Select
-          label="Type"
+    <h1 className={"form_container_title"}>{t('createNewCourse')}</h1>
+    <form className={"form"} onSubmit={handleSubmit(submitNewCourseFormHandler)}>
+      <Input name="name" label={t('courseName')} control={control} />
+      {courseTypes && (
+        <Select
+          label={t('type')}
           name="type"
           control={control}
           options={courseTypes.data}
-        />}
-
-        <input className={"form__submit"} type="submit" value={"Enter"} />
-      </form>
-    </div>
+        />
+      )}
+  
+      <input className={"form__submit"} type="submit" value={t('enter')} />
+    </form>
+  </div>
+  
   )
 };
 

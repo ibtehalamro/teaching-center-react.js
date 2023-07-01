@@ -7,10 +7,13 @@ import Input from '../../Form/Input';
 import Select from '../../Form/Select';
 import FormWithValidation from '../../../HigherOrderComponents/FormWithValidation';
 import Student from '../../../models/students/Student';
+import { useTranslation } from 'react-i18next';
 
 
 function ModifyStudentForm({ methods, studentId, closeModal }) {
   const { handleSubmit, reset, control } = methods;
+  const { t } = useTranslation();
+
   const { mutate, isLoading, data: updatedStudent } = useMutation(updateStudentDataPromise, {
     onSuccess: (data) => {
       handleSubmitResponse(data.data);
@@ -48,30 +51,34 @@ function ModifyStudentForm({ methods, studentId, closeModal }) {
 
   return (
     <div className='student__form form_container'>
-      <h1 className={"form_container_title"}>Create New Student</h1>
+      <h1 className={"form_container_title"}>تعديل معلومات طالب</h1>
       <form id="addStudentForm" className={"form"} onSubmit={handleSubmit(submitUpdatedStudentData)}>
-        <div className='form-group-row '>
-          <Input name="name.firstName" label="First Name" control={control} />
-          <Input name="name.parentName" label="Parent Name" control={control} />
-          <Input name="name.grandParentName" label="Grand parent Name" control={control} />
-          <Input name="name.familyName" label="Family Name" control={control} />
-        </div>
-        <Input name="address.city" label="City Name" control={control} />
-        <Input name="mobileNumber.number1" label="Mobile Number" control={control} />
+       <div className='form-group-row'>
+        <Input name='name.firstName' label={t("First_Name")} control={control} />
+        <Input name='name.parentName' label={t('Parent_Name')} control={control} />
+        <Input name='name.grandParentName' label={t('Grandparent_Name')} control={control} />
+        <Input name='name.familyName' label={t('Family_Name')} control={control} />
+      </div>
+      <Input name='address.city' label={t('cityName')} control={control} />
+      <Input name='mobileNumber.number1' label={t('mobileNumber')} control={control} />
 
-        <Select
-          label="Gender"
-          name="gender"
-          control={control}
-          options={[
-            { value: 'male', label: 'Male' },
-            { value: 'female', label: 'Female' },
-          ]}
-        />
+      <Select
+        label={t('gender')}
+        name='gender'
+        control={control}
+        options={[
+          { value: 'male', label: t('male') },
+          { value: 'female', label: t('female') },
+        ]}
+      />
 
-        <input type="submit" value={isLoading ? "Saving..." : "Save"} className={isLoading ? "submitting" : ""}
-          disabled={isLoading} />
-      </form>
+      <input
+        type='submit'
+        value={isLoading ? t('saving') : t('save')}
+        className={isLoading ? 'submitting' : ''}
+        disabled={isLoading}
+      />
+    </form>
     </div>
   )
 }

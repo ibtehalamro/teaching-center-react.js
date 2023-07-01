@@ -5,10 +5,12 @@ import Select from '../../Form/Select';
 import Input from '../../Form/Input';
 import FormWithValidation from '../../../HigherOrderComponents/FormWithValidation';
 import Teacher from './../../../models/teachers/Teacher';
+import { useTranslation } from 'react-i18next';
 
 
 const TeacherForm = ({ methods })=> {
   const { handleSubmit, control, reset } = methods;
+  const { t } = useTranslation();
 
   const { mutate, isLoading, isError, error, data } = useMutation(saveNewTeacherDataPromise, {
     onSuccess: (data) => {
@@ -38,32 +40,33 @@ const TeacherForm = ({ methods })=> {
   }
 
   return (
-  <div className='teacher form_container'>
-      <h1 className={"form_container_title"}>Create New Teacher</h1>
-      <form id="addTeacherForm" className={"form"} onSubmit={handleSubmit(submitTeacherForm)}>
-        <div className='form-group-row '>
-          <Input name="name.firstName" label="First Name" control={control} />
-          <Input name="name.parentName" label="Parent Name" control={control} />
-          <Input name="name.grandParentName" label="Grand parent Name" control={control} />
-          <Input name="name.familyName" label="Family Name" control={control} />
-        </div>
-        <Input name="address.city" label="City Name" control={control} />
-        <Input name="mobileNumber.number1" label="Mobile Number" control={control} />
-
-        <Select
-          label="Gender"
-          name="gender"
-          control={control}
-          options={[
-            { value: 'male', label: 'Male' },
-            { value: 'female', label: 'Female' },
-          ]}
-        />
-
-        <input type="submit" value={isLoading ? "Saving..." : "Save"} className={isLoading ? "submitting" : ""}
-          disabled={isLoading} />
-      </form>
-    </div>
+    <div className='teacher form_container'>
+    <h1 className={"form_container_title"}>{t('createNewTeacher')}</h1>
+    <form id="addTeacherForm" className={"form"} onSubmit={handleSubmit(submitTeacherForm)}>
+      <div className='form-group-row '>
+        <Input name="name.firstName" label={t('First_Name')} control={control} />
+        <Input name="name.parentName" label={t('Parent_Name')} control={control} />
+        <Input name="name.grandParentName" label={t('Grandparent_Name')} control={control} />
+        <Input name="name.familyName" label={t('Family_Name')} control={control} />
+      </div>
+      <Input name="address.city" label={t('cityName')} control={control} />
+      <Input name="mobileNumber.number1" label={t('mobileNumber')} control={control} />
+  
+      <Select
+        label={t('gender')}
+        name="gender"
+        control={control}
+        options={[
+          { value: 'male', label: t('male') },
+          { value: 'female', label: t('female') },
+        ]}
+      />
+  
+      <input type="submit" value={isLoading ? t('saving') : t('save')} className={isLoading ? "submitting" : ""}
+        disabled={isLoading} />
+    </form>
+  </div>
+  
    )
 }
 export default FormWithValidation(Teacher.getValidationSchema())(TeacherForm)

@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import * as Yup from 'yup';
 class MobileNumberManager {
     constructor(number1) {
@@ -16,8 +17,9 @@ class MobileNumberManager {
         return Yup.object().shape({
             mobileNumber: Yup.object().shape({
                 number1: Yup.string()
-                    .min(10, 'Mobile number must be 10 digits')
-                    .required('Mobile number is required')
+                    .required(i18next.t("REQUIRED"))
+
+                    .min(10, i18next.t("MOBILE_VALIDATION"))
             })
         });
     }

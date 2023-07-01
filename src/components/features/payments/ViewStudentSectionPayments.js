@@ -5,12 +5,14 @@ import { deleteStudentSectionPaymentPromise, viewStudentSectionPaymentsPromise }
 import Loader from '../../Layout/Components/Loader';
 import { getDateFromTimeStamp } from './../../../utils/DateUtils';
 import deleteImage from '../../../assets/delete.jpg';
+import { useTranslation } from 'react-i18next';
 
 export default function ViewStudentSectionPayments({ studentId, sectionId, feeTotal }) {
   const { data: sectionPayments, isLoading, refetch } = useQuery(
     [PAYMENT_API_ENDPOINTS.VIEW_STUDENT_SECTION_PAYMENTS.key, studentId, sectionId],
     () => viewStudentSectionPaymentsPromise(studentId, sectionId)
   );
+  const { t } = useTranslation();
 
   const deletePaymentMutation = useMutation(deleteStudentSectionPaymentPromise, {
     onSuccess: () => {
@@ -34,15 +36,15 @@ export default function ViewStudentSectionPayments({ studentId, sectionId, feeTo
 
   return (
     <div className='studentSectionPayments'>
-      <p className='page-title'>Section payments</p>
+      <p className='page-title'> {t('sectionPayments')}</p>
       <table>
         <thead>
           <tr>
-            <th>Amount</th>
-            <th>Currency</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>حذف</th>
+          <th>{t('amountHeader')}</th>
+        <th>{t('currencyHeader')}</th>
+        <th>{t('createdAtHeader')}</th>
+        <th>{t('updatedAtHeader')}</th>
+        <th>{t('Delete')}</th>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +64,7 @@ export default function ViewStudentSectionPayments({ studentId, sectionId, feeTo
         </tbody>
       </table>
       <div className='payment-info'>
-        <span>Paid {paymentsSum} of {feeTotal}</span>
+        <span>{t("Paid")} {paymentsSum} {t("PAIDOF")} {feeTotal}</span>
       </div>
     </div>
   );

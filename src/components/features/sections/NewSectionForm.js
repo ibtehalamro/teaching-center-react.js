@@ -7,12 +7,14 @@ import Input from "../../Form/Input";
 import { saveNewSectionDataPromise } from "../../../promises/sections/SectionPromises";
 import { API_TEACHER_URLS } from "../../../router/teachers/TeacherUrls";
 import { getTeachersListPromise } from "../../../promises/teachers/TeacherPromises";
+import { useTranslation } from "react-i18next";
 
 
 
 const NewSectionForm = ({ methods, courseId }) => {
   const { handleSubmit, control, reset } = methods;
   const [teachersList, setTeachersList] = useState([]);
+  const { t } = useTranslation();
 
   const teachersListQuery = useQuery([API_TEACHER_URLS.API_GET_TEACHERS_LIST.key],
     getTeachersListPromise,

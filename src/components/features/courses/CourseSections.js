@@ -12,9 +12,11 @@ import students from '../../../assets/student.svg';
 import SectionStudents from '../sections/SectionStudents';
 import attendanceImg from '../../../assets/attendance.png'
 import AttendanceTracker from '../students/AttendanceTracker';
+import { useTranslation } from 'react-i18next';
 const CourseSections = () => {
   const { courseId } = useParams();
   const getCourseSectionsQuery = useQuery([API_COURSE_URLS.API_GET_COURSE_SECTIONS_LIST.key, courseId], () => getCourseSectionsListPromise(courseId));
+  const { t } = useTranslation();
 
   const [Modal, openModal, closeModal] = useModal();
 
@@ -27,27 +29,24 @@ const CourseSections = () => {
 
     <div className="courses__sections-container">
       <div className='title'>
-        <p className='page-title'>Course Name: {courseSections?.data[0]?.courseName}</p>
-        <button className='actionButton' onClick={() => openModal(<NewSectionForm courseId={courseId} />)}>New Section</button>
+        <p className='page-title'>{t('courseHeaders.courseName')}: {courseSections?.data[0]?.courseName}</p>
+        <button className='actionButton' onClick={() => openModal(<NewSectionForm courseId={courseId} />)}>{t('section.newSection')}</button>
       </div>
 
       <div className='list'>
         <table>
           <thead>
-            <tr>
-              <th>Section Name</th>
-              <th>Teacher Name</th>
-
-              <th>End Date</th>
-              <th>Start Date</th>
-              <th>End Time</th>
-              <th>Start Time</th>
-
-              <th>Course Name</th>
-              <th>Students</th>
-              <th>Actions</th>
-              {/* <th>Attendance</th> */}
-            </tr>
+          <tr>
+          <th>{t('sectionTableHeaders.sectionName')}</th>
+          <th>{t('sectionTableHeaders.teacherName')}</th>
+          <th>{t('sectionTableHeaders.endDate')}</th>
+          <th>{t('sectionTableHeaders.startDate')}</th>
+          <th>{t('sectionTableHeaders.endTime')}</th>
+          <th>{t('sectionTableHeaders.startTime')}</th>
+          <th>{t('sectionTableHeaders.courseName')}</th>
+          <th>{t('sectionTableHeaders.students')}</th>
+          <th>{t('sectionTableHeaders.actions')}</th>
+        </tr>
           </thead>
           <tbody>
             {courseSections?.data.map((item, index) => (
@@ -65,7 +64,7 @@ const CourseSections = () => {
                   <button className='card-icon' onClick={() => openModal(<SectionStudents sectionId={item.sectionId} />)}> <img src={students} alt="Students" /> </button>
                 </td>
                 <td>
-                  <button className='actionButton2' onClick={() => openModal(<SingleStudentAssignmentToSectionForm sectionId={item.sectionId} feeTotal={item.feeTotal} closeModal={closeModal} />)}>add student</button>
+                  <button className='actionButton2' onClick={() => openModal(<SingleStudentAssignmentToSectionForm sectionId={item.sectionId} feeTotal={item.feeTotal} closeModal={closeModal} />)}>{t('student.addStudent')}</button>
                 </td>
                   {/* <td>
                     <button className='card-icon actionButton2' 

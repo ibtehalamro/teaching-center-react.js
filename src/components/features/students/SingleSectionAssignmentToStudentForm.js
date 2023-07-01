@@ -7,12 +7,14 @@ import RadioButton from '../../Form/RadioButton';
 import Input from '../../Form/Input';
 import FormWithValidation from '../../../HigherOrderComponents/FormWithValidation';
 import Student from '../../../models/students/Student';
+import { useTranslation } from 'react-i18next';
 
 
-const SingleSectionAssignmentToStudentForm = ({ methods, studentId ,closeModal}) => {
+const SingleSectionAssignmentToStudentForm = ({ methods, studentId, closeModal }) => {
   const { handleSubmit, control } = methods;
   const [discountValue, setDiscountValue] = useState(0);
   const [feeTotal, setFeeTotal] = useState(0);
+  const { t } = useTranslation();
 
   const handleDiscountChange = (event) => {
     setDiscountValue(event.target.value);
@@ -20,7 +22,7 @@ const SingleSectionAssignmentToStudentForm = ({ methods, studentId ,closeModal})
 
   const { mutate } = useMutation(singleSectionAssignmentToStudentPromise, {
     onSuccess: () => {
-        closeModal();
+      closeModal();
     },
     onError: (error) => {
       alert("Error submitting student" + error);
@@ -40,27 +42,27 @@ const SingleSectionAssignmentToStudentForm = ({ methods, studentId ,closeModal})
 
   return (
     <div className='singleSectionAssignmentToStudentForm form_container '>
-      <h1 className='form_container_title'>Assign Student To Section</h1>
-      <form  className={"form"} onSubmit={handleSubmit(submitAssignSingleSectionsToStudentForm)}>
+      <h1 className='form_container_title'>{t("assignStudentToSection")}</h1>
+      <form className={"form"} onSubmit={handleSubmit(submitAssignSingleSectionsToStudentForm)}>
 
         <div className='sections'>
           {sections?.data.map(section =>
-  
+
             <RadioButton key={section.id}
               label={section.sectionName || "-"}
               name={"selectedSection"}
               control={control}
               value={section.id}
               disabled={section.assigned ? true : false}
-              
+
             // onChange={()=>    setFeeTotal(section.feeTotal)                }
             />
           )}
         </div>
 
 
-        <b>fee total </b>{feeTotal - (feeTotal * (discountValue / 100))}
-        <Input name="discount" label="Discount" control={control} type="number" onChange={handleDiscountChange} value={discountValue} min={0} max={100} />
+        <b>{t("feeTotal")} </b>{feeTotal - (feeTotal * (discountValue / 100))}
+        <Input name="discount" label={t("discount")} control={control} type="number" onChange={handleDiscountChange} value={discountValue} min={0} max={100} />
 
         <input type="submit" />
       </form>

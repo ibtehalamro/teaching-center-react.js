@@ -5,10 +5,13 @@ import Loader from '../../Layout/Components/Loader';
 import { getDateFromTimeStamp } from '../../../utils/DateUtils';
 import { API_TEACHER_URLS } from '../../../router/teachers/TeacherUrls';
 import { getTeacherSectionsPromise } from '../../../promises/teachers/TeacherPromises';
+import { useTranslation } from 'react-i18next';
+import TableWithPagination from '../../commonComponents/TableWithPagination';
 
 const TeacherSections = ({ teacherId, teacherName }) => {
 
     const getTeacherSectionsQuery = useQuery([API_TEACHER_URLS.API_GET_TEACHER_SECTIONS_LIST.key, teacherId], () => getTeacherSectionsPromise(teacherId))
+    const { t } = useTranslation( );
 
     const [Modal, openModal, closeModal] = useModal();
 
@@ -16,45 +19,38 @@ const TeacherSections = ({ teacherId, teacherName }) => {
     if (isSectionsLoading) {
         return <Loader />;
     }
+    const headers = [
+      t('teacherSections.tableHeaders.sectionName'),
+      t('teacherSections.tableHeaders.endDate'),
+      t('teacherSections.tableHeaders.startDate'),
+      t('teacherSections.tableHeaders.endTime'),
+      t('teacherSections.tableHeaders.startTime')
+    ];
+    const rowMethod = (item) => {
+      return (
+        <tr className="section"  >
+        <td>{item.sectionName}</td>
+        <td>{getDateFromTimeStamp(item.endDate)}</td>
+        <td>{getDateFromTimeStamp(item.startDate)}</td>
+        <td>{item.endTime}</td>
+        <td>{item.startTime}</td>
+      </tr>
+  
+      );
+    };
+  
     return (
         <div className="teacher__sections">
-            <div className="title">
-                <p className="page-title">Teacher Name: {teacherName}</p>
-            </div>
+      <div className="title">
+        <p className="page-title">{t('teacherSections.title', { teacherName })}</p>
+      </div>
 
-            <div className="teacher__sections-list">
-                <div className='table-head'>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Section Name</th>
-                                <th>End Date</th>
-                                <th>Start Date</th>
-                                <th>End Time</th>
-                                <th>Start Time</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div className='table-body'>
-                    <table>
-                        <tbody>
-                            {teacherSections?.data.map((item, index) => (
-                                <tr className="section" key={index}>
-                                    <td>{item.sectionName}</td>
-                                    <td>{getDateFromTimeStamp(item.endDate)}</td>
-                                    <td>{getDateFromTimeStamp(item.startDate)}</td>
-                                    <td>{item.endTime}</td>
-                                    <td>{item.startTime}</td>
-
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            {Modal()}
-        </div>
+      <div className="teacher__sections-list">
+      <TableWithPagination id={"coursesTable"} data={teacherSections.data} itemsPerPage={5} rowMethod={rowMethod} headers={headers} />
+ 
+      </div>
+      {Modal()}
+    </div>
     );
 };
 

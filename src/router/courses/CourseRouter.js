@@ -5,16 +5,24 @@ import CourseForm from "../../components/features/courses/CourseForm";
 import CourseHome from "../../components/features/courses/CourseHome";
 import CoursesList from "../../components/features/courses/CoursesList";
 import CourseSections from "../../components/features/courses/CourseSections";
+import { useTranslation } from "react-i18next";
  
 
 
 const CourseRouter = () => {
+  const { t } = useTranslation();
    return (
     <div className="course-wrapper">
       <div className="buttons-container">
-        <NavLink end className="cross-fade-button" to={`${CourseUrls.HOME}`}>Home</NavLink>
-        <NavLink end className="cross-fade-button" to={`${CourseUrls.NEW_COURSE_FORM}`}>New Course</NavLink>
-        <NavLink end className="cross-fade-button" to={`${CourseUrls.COURSE_LIST}`}>Courses List</NavLink>
+      <NavLink end className="cross-fade-button" to={`${CourseUrls.HOME}`}>
+        {t('navBarLinks.home')}
+      </NavLink>
+      <NavLink end className="cross-fade-button" to={`${CourseUrls.NEW_COURSE_FORM}`}>
+        {t('navBarLinks.newCourse')}
+      </NavLink>
+      <NavLink end className="cross-fade-button" to={`${CourseUrls.COURSE_LIST}`}>
+        {t('navBarLinks.coursesList')}
+      </NavLink>
       </div>
 
       <Routes>
